@@ -66,9 +66,12 @@ def signup():
                          [request.form['username'], request.form['password']])
             g.db.commit()
         except IntegrityError:
+            # if username is already in use
             flash("username not available")
             return redirect(url_for('signup'))
-        return redirect(url_for('login'))
+        session['logged_in'] = True
+        flash('user was created and logged in')
+        return redirect(url_for('show_entries'))
     return render_template('signup.html')
 
 
